@@ -241,3 +241,45 @@ python -m py_compile common\paths.py deerflow\research_copilot\document_normaliz
 - 将真实 GM 回测结果映射到 `BacktestResult`
 - 生成第一版网站可展示的绩效指标与收益归因结果
 - 再把 BigQuant 策略迁移到相同的统一接口与结果结构
+
+## 13. 第二个 GM 样本：风格轮动策略
+
+本轮已新增第二个 GM 可运行样本策略：research_core/strategy_engine/samples/gm_style_rotation.py。
+
+### 13.1 已完成内容
+
+- 接入风格轮动样本策略
+- 将策略中的明文 token 替换为环境变量 GM_TOKEN
+- 将示例规划脚本扩展为支持多样本：gm_small_cap_monthly 与 gm_style_rotation
+
+### 13.2 当前验证
+
+可通过以下命令生成风格轮动策略的 GM 执行计划：
+
+python research_core\backtest_adapter\example_gm_plan.py gm_style_rotation
+
+当前可识别：
+
+- init/algo 标准 GM 入口
+- run(...) 默认回测参数
+- 样本策略文件路径与策略 ID 映射
+
+### 13.3 关于桌面 PDF
+
+已定位桌面文件：C:\Users\admin\Desktop\风格轮动.pdf。
+
+当前自动检测结果显示该 PDF 为单页报告，且文本层极弱，直接抽取文本基本为空，说明它更接近图片化导出报告。它可以作为后续对照样本，但若要做程序化解析，优先建议获取以下任一原始数据：
+
+- 掘金回测详情导出的指标表
+- 净值曲线 CSV
+- 交易明细 CSV
+- 持仓记录或调仓记录
+
+### 13.4 下一步
+
+下一步优先将风格轮动样本的真实回测结果映射到：
+
+- contracts.backtest.BacktestResult
+- contracts.attribution.AttributionReport
+
+并形成网站前端首版可展示字段。
