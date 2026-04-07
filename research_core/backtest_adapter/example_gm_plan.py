@@ -13,15 +13,16 @@ from contracts.backtest import BacktestRequest
 from research_core.backtest_adapter.gm_adapter import GMBacktestAdapter
 
 
-def build_example_plan(module_path: str) -> dict:
+def build_example_plan(module_path: str | None = None) -> dict:
+    target_module = Path(module_path) if module_path else REPO_ROOT / "research_core" / "strategy_engine" / "samples" / "gm_small_cap_monthly.py"
     request = BacktestRequest(
         run_id=f"run_{uuid.uuid4().hex[:12]}",
-        strategy_id="bigquant-sample",
+        strategy_id="gm-small-cap-monthly",
         strategy_version="v1",
-        strategy_params={"rebalance": "monthly"},
-        module_path=module_path,
-        start_time="2024-01-01 09:30:00",
-        end_time="2025-12-31 15:00:00",
+        strategy_params={"holdings": 10, "rebalance": "monthly"},
+        module_path=str(target_module.resolve()),
+        start_time="2025-01-01 08:00:00",
+        end_time="2026-03-18 16:00:00",
         benchmark="SHSE.000300",
         initial_cash=1000000,
         execution_engine="gm",
@@ -32,6 +33,5 @@ def build_example_plan(module_path: str) -> dict:
 
 
 if __name__ == "__main__":
-    sample_module = REPO_ROOT / ".." / "quant" / "risk" / "26-3-26matrix_fund_manage_method.py"
-    payload = build_example_plan(str(sample_module.resolve()))
+    payload = build_example_plan()
     print(json.dumps(payload, ensure_ascii=False, indent=2))

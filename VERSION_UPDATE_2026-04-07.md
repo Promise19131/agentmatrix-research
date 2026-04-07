@@ -213,3 +213,31 @@ python -m py_compile common\paths.py deerflow\research_copilot\document_normaliz
 - 选择一个 BigQuant 策略样本进行首版接入
 - 将 GM 回测真实输出映射到 `BacktestResult`
 - 将网站展示层接到标准化回测结果和收益归因结果
+
+## 12. 首个 GM 可运行样本策略接入
+
+本轮已将一个掘金可运行的小市值月频调仓策略接入到 `research_core/strategy_engine/samples/`，作为首个标准化接入样本。
+
+### 12.1 已完成内容
+
+- 新增样本策略：`research_core/strategy_engine/samples/gm_small_cap_monthly.py`
+- GM 适配器已可识别标准掘金策略中的 `init/algo` 结构
+- GM 适配器已可从 `if __name__ == '__main__': run(...)` 中提取默认回测参数
+- 示例规划脚本已切到仓库内样本策略，不再依赖外部临时策略文件
+
+### 12.2 当前验证结果
+
+通过 `research_core/backtest_adapter/example_gm_plan.py` 已成功得到以下关键信息：
+
+- 可识别策略入口
+- 可识别函数列表
+- 可提取默认回测起止时间、初始资金、佣金、滑点、撮合模式等配置
+- 可生成第一版标准化 GM 回测执行计划
+
+### 12.3 下一步
+
+下一步将基于这个样本继续推进：
+
+- 将真实 GM 回测结果映射到 `BacktestResult`
+- 生成第一版网站可展示的绩效指标与收益归因结果
+- 再把 BigQuant 策略迁移到相同的统一接口与结果结构
