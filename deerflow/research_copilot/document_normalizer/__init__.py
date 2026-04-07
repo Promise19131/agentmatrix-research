@@ -1,0 +1,1 @@
+from .service import document_normalizer_service
